@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phonofestivalen 2027 · Bergen</title>
+  <meta name="description" content="Undergrunnsfestival i Bergen. Lokale band, rare lyder, null kommersielt bullshit. Phonofestivalen 2027.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --purple: #2c25a2;
+      --purple-hot: #4a3fd4;
+      --mint: #a0eddd;
+      --red: #ff2a2a;
+      --ink: #0c0b12;
+      --paper: #e8e4dc;
+      --noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 15px;
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: var(--noise);
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    a {
+      color: var(--mint);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    a:hover {
+      color: var(--red);
+      text-decoration-style: wavy;
+    }
+
+    /* Ticker */
+    .ticker-wrap {
+      background: var(--purple);
+      border-bottom: 2px solid var(--mint);
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .ticker {
+      display: inline-block;
+      padding: 0.45rem 0;
+      animation: scroll 28s linear infinite;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mint);
+    }
+
+    .ticker span {
+      padding: 0 2rem;
+    }
+
+    .ticker span::after {
+      content: "◆";
+      margin-left: 2rem;
+      color: var(--red);
+    }
+
+    @keyframes scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 92vh;
+      padding: 2rem 1.25rem 4rem;
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr;
+      align-content: center;
+      container-type: inline-size;
+      container-name: hero;
+      overflow-x: clip;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 10%;
+      right: 5%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--mint), transparent);
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.5rem;
+      margin-bottom: 2rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(160, 237, 221, 0.7);
+    }
+
+    .meta-row span:nth-child(odd) {
+      color: var(--red);
+    }
+
+    .title-stack {
+      position: relative;
+      margin: 0 0 1.5rem;
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    .title-stack h1 {
+      margin: 0;
+      width: 100%;
+      max-width: 100%;
+      line-height: 0.88;
+    }
+
+    .title-word,
+    .title-year {
+      display: block;
+      font-family: "Syne", sans-serif;
+      font-weight: 800;
+      max-width: 100%;
+      text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: clip;
+    }
+
+    .title-word {
+      letter-spacing: -0.03em;
+      color: var(--paper);
+      /* Fallback until JS measures; kept conservative to avoid overflow */
+      font-size: clamp(1.25rem, 7vw, 9.5rem);
+    }
+
+    .title-year {
+      letter-spacing: -0.02em;
+      color: var(--mint);
+      text-align: right;
+      margin-top: -0.06em;
+      animation: drift 6s ease-in-out infinite alternate;
+      /* Fallback until JS measures */
+      font-size: clamp(1.75rem, 18vw, 13rem);
+    }
+
+    .title-sub {
+      display: block;
+      margin-top: clamp(0.35rem, 1.2vw, 0.75rem);
+      max-width: 100%;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: clamp(0.65rem, 2.5vw, 1.05rem);
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: lowercase;
+      color: var(--purple-hot);
+      transform: rotate(-2deg);
+      transform-origin: left center;
+    }
+
+    @keyframes drift {
+      from { transform: rotate(-0.5deg); }
+      to { transform: rotate(0.5deg); }
+    }
+
+    .glitch {
+      position: relative;
+      display: block;
+      max-width: 100%;
+    }
+
+    .glitch:hover {
+      animation: glitch 0.4s steps(2) infinite;
+    }
+
+    @keyframes glitch {
+      0% { text-shadow: 2px 0 var(--red), -2px 0 var(--mint); }
+      50% { text-shadow: -2px 2px var(--purple-hot), 2px -2px var(--mint); }
+      100% { text-shadow: 2px -2px var(--red), -2px 2px var(--purple); }
+    }
+
+    .hero-blurb {
+      max-width: 28rem;
+      margin: 0 0 2rem;
+      font-size: 0.95rem;
+      border-left: 3px solid var(--red);
+      padding-left: 1rem;
+    }
+
+    .hero-blurb strong {
+      color: var(--mint);
+      font-weight: 600;
+    }
+
+    .cta-cluster {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .cta {
+      display: inline-block;
+      font-family: "Syne", sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.85rem 1.4rem;
+      border: 2px solid var(--mint);
+      color: var(--ink);
+      background: var(--mint);
+      transform: rotate(-1deg);
+      transition: transform 0.15s, background 0.15s, color 0.15s;
+    }
+
+    .cta:hover {
+      transform: rotate(1deg) scale(1.03);
+      background: var(--red);
+      border-color: var(--red);
+      color: var(--paper);
+      text-decoration: none;
+    }
+
+    .cta-ghost {
+      background: transparent;
+      color: var(--mint);
+      transform: rotate(1.5deg);
+    }
+
+    .cta-ghost:hover {
+      background: var(--purple);
+      border-color: var(--purple-hot);
+      color: var(--paper);
+    }
+
+    .stamp {
+      position: absolute;
+      right: 5%;
+      top: 18%;
+      width: clamp(100px, 18vw, 160px);
+      height: clamp(100px, 18vw, 160px);
+      border: 3px solid var(--red);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--red);
+      transform: rotate(18deg);
+      opacity: 0.85;
+      pointer-events: none;
+    }
+
+    .stamp span {
+      display: block;
+      font-family: "Syne", sans-serif;
+      font-size: 1.4rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    /* Staggered blocks */
+    .blocks {
+      padding: 3rem 1.25rem 5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    .block {
+      position: relative;
+      max-width: 36rem;
+      padding: 1.25rem 1.5rem;
+      background: rgba(44, 37, 162, 0.25);
+      border: 1px solid rgba(160, 237, 221, 0.35);
+    }
+
+    .block:nth-child(1) { margin-left: 0; transform: rotate(-0.8deg); }
+    .block:nth-child(2) { margin-left: clamp(1rem, 12vw, 8rem); transform: rotate(0.6deg); }
+    .block:nth-child(3) { margin-left: clamp(0.5rem, 6vw, 4rem); transform: rotate(-0.4deg); }
+    .block:nth-child(4) { margin-left: clamp(2rem, 18vw, 12rem); transform: rotate(1deg); }
+
+    .block-label {
+      position: absolute;
+      top: -0.65rem;
+      left: 1rem;
+      background: var(--ink);
+      padding: 0 0.5rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mint);
+    }
+
+    .block h2 {
+      margin: 0 0 0.6rem;
+      font-family: "Syne", sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .block p {
+      margin: 0;
+      color: rgba(232, 228, 220, 0.85);
+      font-size: 0.88rem;
+    }
+
+    /* Manifesto */
+    .manifesto {
+      margin: 0 1.25rem 4rem;
+      padding: 2rem;
+      border: 2px solid var(--purple);
+      background: linear-gradient(135deg, rgba(44, 37, 162, 0.4) 0%, transparent 60%);
+      transform: skewY(-1deg);
+    }
+
+    .manifesto-inner {
+      transform: skewY(1deg);
+    }
+
+    .manifesto h2 {
+      margin: 0 0 1rem;
+      font-family: "Syne", sans-serif;
+      font-size: clamp(1.2rem, 4vw, 1.8rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--mint);
+    }
+
+    .manifesto p {
+      margin: 0 0 0.85rem;
+      max-width: 38rem;
+      font-size: 0.9rem;
+    }
+
+    .manifesto p:last-child {
+      margin-bottom: 0;
+      color: rgba(160, 237, 221, 0.65);
+      font-style: italic;
+    }
+
+    /* Nav as scattered links */
+    .jump-nav {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      align-items: flex-end;
+    }
+
+    .jump-nav a {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.3rem 0.6rem;
+      background: var(--ink);
+      border: 1px solid rgba(160, 237, 221, 0.4);
+      color: var(--mint);
+      opacity: 0.75;
+      transition: opacity 0.15s, transform 0.15s;
+    }
+
+    .jump-nav a:hover {
+      opacity: 1;
+      transform: translateX(-4px);
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    /* Footer */
+    footer {
+      padding: 2.5rem 1.25rem 3rem;
+      border-top: 1px dashed rgba(160, 237, 221, 0.3);
+      text-align: left;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 2rem;
+      max-width: 48rem;
+    }
+
+    .footer-grid h3 {
+      margin: 0 0 0.5rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+    }
+
+    .footer-grid ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .footer-grid li {
+      margin-bottom: 0.35rem;
+    }
+
+    .footer-grid a {
+      text-decoration: none;
+    }
+
+    .footer-grid a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-bottom {
+      margin-top: 2rem;
+      color: rgba(232, 228, 220, 0.4);
+    }
+
+    @media (max-width: 640px) {
+      .stamp {
+        position: static;
+        margin: 1.5rem 0 0 auto;
+        transform: rotate(12deg);
+      }
+
+      .block:nth-child(n) {
+        margin-left: 0;
+        transform: none;
+      }
+
+      .jump-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        left: 1.25rem;
+        right: 1.25rem;
+        justify-content: flex-end;
+      }
+
+      .manifesto {
+        transform: none;
+      }
+
+      .manifesto-inner {
+        transform: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ticker { animation: none; }
+      .title-year { animation: none; }
+      .glitch:hover { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker">
+      <span>107,8 MHz SRIB</span><span>Undergrunn</span><span>Lokalscene</span><span>Ikke algoritmefestival</span><span>Bergen 2027</span><span>107,8 MHz SRIB</span><span>Undergrunn</span><span>Lokalscene</span><span>Ikke algoritmefestival</span><span>Bergen 2027</span>
+    </div>
+  </div>
+
+  <section class="hero" id="top">
+    <div class="meta-row">
+      <span>Studentradioen i Bergen</span>
+      <span>Kvarteret · Landmark · Hulen · mer</span>
+      <span>Dato TBA</span>
+    </div>
+
+    <div class="title-stack">
+      <h1>
+        <span class="title-word glitch">Phonofestivalen</span>
+        <span class="title-year">2027</span>
+        <span class="title-sub">bergen · norge</span>
+      </h1>
+    </div>
+
+    <div class="stamp" aria-hidden="true">
+      <div>
+        <span>20</span>
+        år med<br>rar musikk
+      </div>
+    </div>
+
+    <p class="hero-blurb">
+      <strong>For deg som hører på ting ingen anmelder.</strong>
+      Phono er tilbake — studentdrevet, ikke-kommersielt, og mer opptatt av hva som skjer i kjelleren
+      enn hva som trendet i går.
+    </p>
+
+    <div class="cta-cluster">
+      <a class="cta" href="mailto:frivillig@phonofestivalen.no">Meld deg frivillig</a>
+      <a class="cta cta-ghost" href="#program">Se hva som kommer</a>
+    </div>
+  </section>
+
+  <div class="blocks">
+    <article class="block" id="program">
+      <span class="block-label">01 / program</span>
+      <h2>Konsert + kultur + kaos</h2>
+      <p>
+        Debatter, radiokafé, film, workshops og konsertprogram spredt over byen.
+        Detaljer droppes når vi faktisk vet hva vi holder på med.
+      </p>
+    </article>
+
+    <article class="block" id="artister">
+      <span class="block-label">02 / artister</span>
+      <h2>Artistslipp kommer</h2>
+      <p>
+        Lokale band du burde ha oppdaget for to år siden. Nasjonale navn som ikke spiller
+        sirkus. Internasjonale gjester med bagasje. Null filler.
+      </p>
+    </article>
+
+    <article class="block" id="frivillig">
+      <span class="block-label">03 / frivillig</span>
+      <h2>80 mennesker, null lønn, masse gøy</h2>
+      <p>
+        Roadie, vakt, booking, PR, kokker, rabaldersgruppe — du finner nok en rolle.
+        Mail <a href="mailto:frivillig@phonofestivalen.no">frivillig@phonofestivalen.no</a>.
+      </p>
+    </article>
+
+    <article class="block" id="billetter">
+      <span class="block-label">04 / billetter</span>
+      <h2>Ikke ute ennå</h2>
+      <p>
+        Festivalpass og enkeltbilletter kommer når programmet er klart.
+        Følg med — det pleier å gå unna.
+      </p>
+    </article>
+  </div>
+
+  <section class="manifesto" id="info">
+    <div class="manifesto-inner">
+      <h2>Hva er dette egentlig?</h2>
+      <p>
+        Phonofestivalen startet i 2005 som Studentradioen i Bergens hjertebarn: en uke (eller mer)
+        med musikk, samfunn og kultur — drevet av frivillige, finansiert av idealisme og
+        en solid dose «vi får til dette».
+      </p>
+      <p>
+        Vi booker det vi mener fortjener en scene. Etablerte og uetablerte. Bergenske og
+        langveisfra. Du trenger ikke kjenne noen for å føle deg hjemme, men det hjelper
+        om du liker litt støy.
+      </p>
+      <p>
+        Ikke en corporate festivalopplevelse. Mer som å bli invitert inn bak scenen.
+      </p>
+    </div>
+  </section>
+
+  <nav class="jump-nav" aria-label="Hopp til seksjon">
+    <a href="#program">Program</a>
+    <a href="#artister">Artister</a>
+    <a href="#frivillig">Frivillig</a>
+    <a href="#info">Info</a>
+    <a href="#kontakt">Kontakt</a>
+  </nav>
+
+  <footer id="kontakt">
+    <div class="footer-grid">
+      <div>
+        <h3>Kontakt</h3>
+        <ul>
+          <li><a href="mailto:leder@phonofestivalen.no">leder@phonofestivalen.no</a></li>
+          <li><a href="mailto:frivillig@phonofestivalen.no">frivillig@phonofestivalen.no</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Radio</h3>
+        <ul>
+          <li>107,8 MHz</li>
+          <li>Studentradioen i Bergen</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Stalk oss</h3>
+        <ul>
+          <li><a href="https://www.facebook.com/pages/Phonofestivalen/46344175404" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="https://twitter.com/phonofestivalen" target="_blank" rel="noopener">Twitter / X</a></li>
+          <li><a href="https://instagram.com/phonofestivalen" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer-bottom">Phonofestivalen 2027 · Bergen · 100% frivillig · 0% Spotify Wrapped energy</p>
+  </footer>
+
+  <script>
+    (function () {
+      var stack = document.querySelector('.title-stack');
+      if (!stack) return;
+
+      var word = stack.querySelector('.title-word');
+      var year = stack.querySelector('.title-year');
+      var MAX_WORD = 152;
+      var MAX_YEAR = 208;
+
+      function fitLine(el, maxPx) {
+        if (!el) return;
+        var width = stack.clientWidth;
+        if (width <= 0) return;
+
+        var lo = 12;
+        var hi = maxPx;
+        var best = lo;
+
+        el.style.fontSize = hi + 'px';
+        if (el.scrollWidth <= width) {
+          best = hi;
+        } else {
+          while (hi - lo > 0.5) {
+            var mid = (lo + hi) / 2;
+            el.style.fontSize = mid + 'px';
+            if (el.scrollWidth <= width) {
+              best = mid;
+              lo = mid;
+            } else {
+              hi = mid;
+            }
+          }
+          el.style.fontSize = best + 'px';
+        }
+      }
+
+      function fitTitle() {
+        fitLine(word, MAX_WORD);
+        fitLine(year, MAX_YEAR);
+      }
+
+      var ro = new ResizeObserver(fitTitle);
+      ro.observe(stack);
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(fitTitle);
+      } else {
+        window.addEventListener('load', fitTitle);
+      }
+
+      fitTitle();
+    })();
+  </script>
+
+</body>
+</html>
